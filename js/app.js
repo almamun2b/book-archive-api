@@ -37,8 +37,8 @@ const displayError = error => {
     er.style.display = 'block';
 }
 
-displaySearchResult = data => {
-    console.log(data.docs);
+const displaySearchResult = data => {
+    // console.log(data.docs);
     displayTotalResultNumber(data.numFound);
     data.docs.forEach(book => {
         const div = document.createElement('div');
