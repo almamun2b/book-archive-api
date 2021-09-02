@@ -48,7 +48,6 @@ const displayError = error => {
 
 // Display Search Result
 const displaySearchResult = data => {
-    console.log(data);
     displayTotalResultNumber(data.numFound);
     data.docs.forEach(book => {
         const div = document.createElement('div');
