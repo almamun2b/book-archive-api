@@ -1,4 +1,0 @@
-https://openlibrary.org/search?q=javascript&mode=everything
-
-http://openlibrary.org/search.json?q=javascript
-

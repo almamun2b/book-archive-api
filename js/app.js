@@ -1,6 +1,7 @@
 const searchField = document.getElementById('search-field');
 const searchResult = document.getElementById('search-result');
 
+// clear Field
 const clearField = () => {
     searchField.value = '';
     searchResult.textContent = '';
@@ -9,11 +10,12 @@ const clearField = () => {
 }
 clearField();
 
+// Search Books
 const searchBook = () => {
     const searchText = searchField.value;
     if (searchText == '') {
         clearField();
-        displayError('Please Enter Search Text!!');
+        displayError("Input Can't be Empty, Please Enter Search Text!!");
     }
     else {
         clearField();
@@ -21,24 +23,32 @@ const searchBook = () => {
         fetch(url)
             .then(res => res.json())
             .then(data => displaySearchResult(data))
-            .catch(() => displayError('Something went wrong, Please try again!!'))
+            .catch(() => displayError('Something Went Wrong, Please Try Again!!'))
     }
 }
 
+// Display Total Number of Results
 const displayTotalResultNumber = number => {
     const totalResult = document.getElementById('total-result');
-    totalResult.innerText = `${number} Result's Found`;
+    if (number === 0) {
+        totalResult.innerText = "Oops.. No Results Found!!";
+    }
+    else {
+        totalResult.innerText = `${number} Results Found`;
+    }
     totalResult.style.display = 'block';
 }
 
+// Display Errors
 const displayError = error => {
-    const er = document.getElementById('error-message');
-    er.innerText = error;
-    er.style.display = 'block';
+    const err = document.getElementById('error-message');
+    err.innerText = error;
+    err.style.display = 'block';
 }
 
+// Display Search Result
 const displaySearchResult = data => {
-    // console.log(data.docs);
+    console.log(data);
     displayTotalResultNumber(data.numFound);
     data.docs.forEach(book => {
         const div = document.createElement('div');
@@ -46,7 +56,7 @@ const displaySearchResult = data => {
         div.innerHTML = `
             <div class="card h-100 shadow-lg">
                 <div class="row g-0">
-                    <div class="col-md-4">
+                    <div class="col-md-4 my-auto">
                         <img src="https://covers.openlibrary.org/b/id/${setText(book.cover_i, '10909258')}-M.jpg"
                             class="img-fluid rounded-start" alt="...">
                     </div>
@@ -58,7 +68,7 @@ const displaySearchResult = data => {
                             
                             <p class="card-text"><small class="text-muted">Edition: ${setText(book.edition_count, 'Unknown Edition')}</small>
                             
-                            <p class="card-text"><small class="text-muted">First published in ${setText(book.first_publish_year, 'Unknown Year')}</small>
+                            <p class="card-text"><small class="text-muted">First Published in ${setText(book.first_publish_year, 'Unknown Year')}</small>
                             </p>
                             
                             <p class="card-text"><small class="text-muted">Publisher: ${setName(book.publisher, 'Publisher')}</small>
@@ -74,6 +84,7 @@ const displaySearchResult = data => {
     });
 }
 
+// Set Authors & Publishers Name
 const setName = (nameArray, errorName) => {
     if (nameArray === undefined) {
         return `Unknown ${errorName}`;
@@ -89,6 +100,7 @@ const setName = (nameArray, errorName) => {
     }
 }
 
+// Set Books Edition, Published Year, Language & ISBN
 const setText = (properties, errorMessage) => {
     if (properties === undefined) {
         return errorMessage;
