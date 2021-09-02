@@ -1,6 +1,12 @@
 const searchField = document.getElementById('search-field');
 const searchResult = document.getElementById('search-result');
 
+// Loading Page Spinner
+const toggleSpinner = displayStyle => {
+    document.getElementById('spinner').style.display = displayStyle;
+}
+toggleSpinner('none');
+
 // clear Field
 const clearField = () => {
     searchField.value = '';
@@ -13,6 +19,7 @@ clearField();
 // Search Books
 const searchBook = () => {
     const searchText = searchField.value;
+    toggleSpinner('block');
     if (searchText == '') {
         clearField();
         displayError("Input Can't be Empty, Please Enter Search Text!!");
@@ -27,7 +34,7 @@ const searchBook = () => {
     }
 }
 
-// Display Total Number of Results
+// Display Total Number of Books From Search
 const displayTotalResultNumber = number => {
     const totalResult = document.getElementById('total-result');
     if (number === 0) {
@@ -36,14 +43,16 @@ const displayTotalResultNumber = number => {
     else {
         totalResult.innerText = `${number} Results Found`;
     }
+    toggleSpinner('none');
     totalResult.style.display = 'block';
 }
 
 // Display Errors
 const displayError = error => {
-    const err = document.getElementById('error-message');
-    err.innerText = error;
-    err.style.display = 'block';
+    const errorField = document.getElementById('error-message');
+    errorField.innerText = error;
+    toggleSpinner('none');
+    errorField.style.display = 'block';
 }
 
 // Display Search Result
@@ -99,7 +108,7 @@ const setName = (nameArray, errorName) => {
     }
 }
 
-// Set Books Edition, Published Year, Language & ISBN
+// Set Books Edition,First Published Year, Language & ISBN
 const setText = (properties, errorMessage) => {
     if (properties === undefined) {
         return errorMessage;
@@ -113,3 +122,4 @@ const setText = (properties, errorMessage) => {
         }
     }
 }
+
