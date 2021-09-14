@@ -19,13 +19,14 @@ clearField();
 // Search Books
 const searchBook = () => {
     const searchText = searchField.value;
+    clearField();
     toggleSpinner('block');
-    if (searchText == '') {
-        clearField();
+    if (searchText === '') {
+        // clearField();
         displayError("Input Can't be Empty, Please Enter Search Text!!");
     }
     else {
-        clearField();
+        // clearField();
         const url = `https://openlibrary.org/search.json?q=${searchText}`;
         fetch(url)
             .then(res => res.json())
@@ -65,13 +66,13 @@ const displaySearchResult = data => {
             <div class="card h-100 shadow-lg">
                 <div class="row g-0">
                     <div class="col-md-4 my-auto">
-                        <img src="https://covers.openlibrary.org/b/id/${setText(book.cover_i, '10909258')}-M.jpg"
+                        <img src="${setImageUrl(book.cover_i)}"
                             class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title text-success">${book.title}</h5>
-                            
+                             
                             <p class="card-text">Author: ${setName(book.author_name, 'Author')}</p>
                             
                             <p class="card-text"><small class="text-muted">Edition: ${setText(book.edition_count, 'Unknown Edition')}</small>
@@ -123,3 +124,13 @@ const setText = (properties, errorMessage) => {
     }
 }
 
+//Set Images
+const setImageUrl = properties => {
+    if (properties === undefined) {
+        return `https://covers.openlibrary.org/b/id/10909258-M.jpg`;
+        // return `images/not-found.png`;
+    }
+    else {
+        return `https://covers.openlibrary.org/b/id/${properties}-M.jpg`;
+    }
+}
